@@ -1,5 +1,5 @@
 {
-    "name": "sphdd/adstxt",
+    "name": "sphdd/authorized_digital_sellers",
     "description": "An ads.txt management tool for Drupal >=8.5",
     "type": "drupal-module",
     "keywords": ["Drupal"],
