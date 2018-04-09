@@ -1,2 +1,2 @@
-# authorized_digital_sellers
-An ADS.TXT manager
+# Authorized Digital Sellers Manager Tool
+An ADS.TXT manager for Drupal 8
