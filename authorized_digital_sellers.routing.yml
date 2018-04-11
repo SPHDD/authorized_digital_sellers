@@ -1,0 +1,14 @@
+authorized_digital_sellers.admin:
+  path: "/admin/config/services/authorized_digital_sellers"
+  defaults:
+    _form: 'Drupal\authorized_digital_sellers\Form\ConfigurationForm'
+    _title: "Authorized Digital Sellers Configuration"
+  requirements:
+    _permission: "access content"
+authorized_digital_sellers.adstxt:
+  path: "/ads.txt"
+  defaults:
+    _controller: 'Drupal\authorized_digital_sellers\Controller\AuthorizedDigitalSellersController::adstxt'
+    _title: "Authorized Digital Sellers"
+  requirements:
+    _permission: "access content"

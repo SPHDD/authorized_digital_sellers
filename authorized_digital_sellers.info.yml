@@ -1,0 +1,6 @@
+name: Authorized Digital Sellers Manager
+description: A Module to manage Authorized Digital Sellers
+package: Advertising
+type: module
+version: 1.0
+core: 8.x

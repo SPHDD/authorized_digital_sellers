@@ -1,0 +1,6 @@
+authorized_digital_sellers.admin:
+  title: "Authorized Digital Sellers settings"
+  description: "Settings for Authorized Digital Sellers"
+  parent: system.admin_config_services
+  route_name: authorized_digital_sellers.admin
+  weight: 100
