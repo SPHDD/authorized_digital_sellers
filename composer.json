@@ -12,6 +12,7 @@
     "require": {
         "php": ">=5.5.9",
         "drupal/core": ">=8.5.0",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "cakephp/validation": "3.*"
     }
 }
