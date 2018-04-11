@@ -1,0 +1,13 @@
+authorized_digital_sellers.settings:
+  type: config_object
+  label: 'Authorized Digital Sellers module settings'
+  mapping:
+    radio_external_self:
+      type: string
+      label: 'External File Management or Self-Managed'
+    external_ads_file:
+      type: string
+      label: 'The http/https location of the ads.txt file'
+    self_managed_text:
+      type: string
+      label: 'The ads.txt information'
