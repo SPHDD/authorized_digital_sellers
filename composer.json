@@ -1,0 +1,19 @@
+{
+    "name": "sphdd/authorized_digital_sellers",
+    "description": "An ads.txt management tool for Drupal >=8.5",
+    "type": "drupal-module",
+    "keywords": ["Drupal"],
+    "homepage": "https://github.com/SPHDD/authorized_digital_sellers",
+    "support": {
+        "issues": "https://github.com/SPHDD/authorized_digital_sellers/issues",
+        "source": "https://github.com/SPHDD/authorized_digital_sellers"
+    },
+    "license": "GPL-3.0",
+    "require": {
+        "php": ">=5.5.9",
+        "drupal/core": ">=8.5.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "cakephp/validation": "3.*",
+        "cakephp/i18n": "3.*"
+    }
+}
