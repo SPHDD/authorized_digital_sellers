@@ -35,6 +35,24 @@ class ConfigurationForm extends ConfigFormBase {
       "#default_value" => $config->get("external_ads_file"),
     ];
 
+    $form["external_ads_file_refresh_rate"] = [
+      "#type" => "textfield",
+      "#title" => $this->t("External ADS file refresh rate"),
+      "#description" => $this->t("How long should the ads.txt renew from the external source?"),
+      "#required" => false,
+      "#placeholder" => "eg. +5 minutes or +1 day",
+      "#default_value" => $config->get("external_ads_file_refresh_rate"),
+    ];
+
+    $form["external_ads_file_fallback_to_self"] = [
+      "#type" => "checkbox",
+      "#title" => $this->t("Fallback to Self-Managed"),
+      "#description" => $this->t("If the external ads.txt file cannot be retrieved and there is no cached version, should the module fallback to Self-Managed text version?"),
+      "#required" => false,
+      "#placeholder" => "eg. +5 minutes or +1 day",
+      "#default_value" => $config->get("external_ads_file_fallback_to_self"),
+    ];
+
     $form["self_managed_text"] = [
       "#type" => "textarea",
       "#title" => $this->t("Self Managed ADS text file"),
@@ -64,6 +82,8 @@ class ConfigurationForm extends ConfigFormBase {
 
     $config->set("radio_external_self", $form_state->getValue("radio_external_self"));
     $config->set("external_ads_file", $form_state->getValue("external_ads_file"));
+    $config->set("external_ads_file_refresh_rate", $form_state->getValue("external_ads_file_refresh_rate"));
+    $config->set("external_ads_file_fallback_to_self", $form_state->getValue("external_ads_file_fallback_to_self"));
     $config->set("self_managed_text", $form_state->getValue("self_managed_text"));
 
     //Save Configuration
