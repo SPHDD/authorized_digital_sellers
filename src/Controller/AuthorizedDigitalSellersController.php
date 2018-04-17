@@ -75,6 +75,20 @@ class AuthorizedDigitalSellersController extends ControllerBase {
 
     $response = new Response($adstxt);
     $response->headers->set("Content-Type", "text/plain");
+
+    //If http cache is set, set the cache
+    //else no-store
+    if (!empty($config->get("http_cache_control"))) {
+      $httpCache = strtotime($config->get("http_cache_control")) - (new \DateTime)->getTimestamp();
+      if ($httpCache < 1) {
+        $httpCache = "no-store";
+      } else {
+        $httpCache = "max-age=" . $httpCache;
+      }
+      $response->headers->set("Cache-Control", $httpCache);
+    } else {
+      $response->headers->set("Cache-Control", "must-revalidate,no-store");
+    }
     return $response;
   }
 

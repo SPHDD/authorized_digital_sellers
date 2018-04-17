@@ -61,6 +61,15 @@ class ConfigurationForm extends ConfigFormBase {
       "#default_value" => $config->get("self_managed_text"),
     ];
 
+    $form["http_cache_control"] = [
+      "#type" => "textfield",
+      "#title" => $this->t("HTTP Cache Control"),
+      "#description" => $this->t("Enter the duration of cache-control for http header. Leave blank for no-store."),
+      "#required" => false,
+      "#placeholder" => "eg. +5 minutes or +1 day",
+      "#default_value" => $config->get("http_cache_control"),
+    ];
+
     $form["actions"] = [
       "#type" => "actions",
       "submit" => [
@@ -85,6 +94,7 @@ class ConfigurationForm extends ConfigFormBase {
     $config->set("external_ads_file_refresh_rate", $form_state->getValue("external_ads_file_refresh_rate"));
     $config->set("external_ads_file_fallback_to_self", $form_state->getValue("external_ads_file_fallback_to_self"));
     $config->set("self_managed_text", $form_state->getValue("self_managed_text"));
+    $config->set("http_cache_control", $form_state->getValue("http_cache_control"));
 
     //Save Configuration
     $config->save();
