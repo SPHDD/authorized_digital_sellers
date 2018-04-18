@@ -1,6 +1,8 @@
 <?php
 namespace Drupal\authorized_digital_sellers\Form;
 
+use Cake\I18n\Time;
+use Cake\Validation\Validator;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -82,6 +84,62 @@ class ConfigurationForm extends ConfigFormBase {
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
+    $validator = new Validator();
+    $validator
+      ->requirePresence("radio_external_self", "External or Self-Managed value must be present")
+      ->notEmpty("radio_external_self", "External or Self-Managed value must be present")
+      ->add("radio_external_self", [
+        "inList" => [
+          "rule" => ["inList", ["self", "external"]],
+          "message" => "External File or Self-Managed value must be valid",
+        ],
+      ])
+
+      ->add("external_ads_file", [
+        "url" => [
+          "rule" => "url",
+          "message" => "External File URL must be valid",
+        ],
+      ])
+
+      ->add("external_ads_file_refresh_rate", [
+        "strtotime" => [
+          "rule" => [$this, "validationStrtotime"],
+          "message" => "External File URL refresh rate value must be valid",
+        ],
+        "isFuture" => [
+          "rule" => [$this, "validationIsFuture"],
+          "message" => "External File URL refresh rate value must be set in the future",
+        ],
+      ])
+
+      ->add("external_ads_file_fallback_to_self", [
+        "boolean" => [
+          "rule" => "boolean",
+          "message" => "External File fallback to self value must be valid",
+        ],
+      ])
+
+      ->add("http_cache_control", [
+        "strtotime" => [
+          "rule" => [$this, "validationStrtotime"],
+          "message" => "HTTP Cache Control value must be valid",
+        ],
+        "isFuture" => [
+          "rule" => [$this, "validationIsFuture"],
+          "message" => "External File URL refresh rate value must be set in the future",
+        ],
+      ])
+    ;
+    $errors = $validator->errors($_POST);
+    foreach ($errors as $field => $messages) {
+      $errorMessages = "";
+      foreach ($messages as $message) {
+        $errorMessages .= $message . " | ";
+      }
+      $errorMessages = substr($errorMessages, 0, strlen($errorMessages) - 3);
+      $form_state->setErrorByName($field, $this->t($errorMessages));
+    }
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -104,5 +162,33 @@ class ConfigurationForm extends ConfigFormBase {
     return [
       "authorized_digital_sellers.settings",
     ];
+  }
+
+  /**
+   * Validate if the value is valid English Textual Date
+   * Using strtotime()
+   */
+  public function validationStrtotime($check, array $context) {
+    /*DEBUG*/ //echo "<pre>";print_r($context);echo "</pre>";exit;
+
+    //If there is an exception thrown, this is not a valid date textual value
+    try {
+      $time = strtotime($check);
+    } catch (\Exception $e) {
+      return false;
+    }
+
+    //If the value returns is false, there is an error
+    if ($time === false) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Validate if the time is set in the future
+   */
+  public function validationIsFuture($check, array $context) {
+    return (new Time($check))->isFuture();
   }
 }
