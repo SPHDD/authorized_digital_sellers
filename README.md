@@ -15,6 +15,7 @@
   </a>
 </p>
 # Authorized Digital Sellers Manager Tool
+
 ADS.TXT manager for Drupal 8 is a module to manage the ads.txt configuration. This is particularly useful if you have to maintain multiple ads.txt file across all your websites.
 
 ## Installing ADS.TXT manager via Composer
@@ -55,3 +56,11 @@ $ composer require SPHDD/authorized_digital_sellers:"^1"
     - The values must be parsable with [strtotime()](http://php.net/manual/en/function.strtotime.php)
     - It must be a figure set in the future (duh!)
     - Leave blank for no-store
+
+## Proposed Future Features
+
+- Detection of ads.txt file and deletion from admin console
+- Automatic purging of Varnish ads.txt on fresh copy from Master
+- Automatic purging of CDN ads.txt on fresh copy from Master
+  - Edgecast
+  - Cloudfront
