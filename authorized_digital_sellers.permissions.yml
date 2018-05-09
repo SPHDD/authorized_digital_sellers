@@ -1,0 +1,4 @@
+"administer authorized_digital_sellers":
+  title: Administer ADS manager
+  description: "Allow administration of Authorised Digital Sellers"
+  restrict access: true

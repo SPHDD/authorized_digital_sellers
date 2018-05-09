@@ -4,7 +4,7 @@ authorized_digital_sellers.admin:
     _form: 'Drupal\authorized_digital_sellers\Form\ConfigurationForm'
     _title: "Authorized Digital Sellers Configuration"
   requirements:
-    _permission: "access content"
+    _permission: "administer authorized_digital_sellers"
 authorized_digital_sellers.adstxt:
   path: "/ads.txt"
   defaults:
