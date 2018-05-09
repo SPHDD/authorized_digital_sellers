@@ -4,12 +4,30 @@ namespace Drupal\authorized_digital_sellers\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthorizedDigitalSellersController extends ControllerBase {
+
+  private $client;
+
+  /**
+   * Initialising constructor
+   */
+  public function __construct(ClientInterface $client = null) {
+    if (empty($client)) {
+      $this->setHttpClient(new Client());
+    } else {
+      $this->setHttpClient($client);
+    }
+  }
+
+  /**
+   * Renders the ads.txt content
+   */
   public function adstxt() {
     $config = $this->config("authorized_digital_sellers.settings");
-    /*DEBUG*/ //echo "<pre>";print_r($config->get("radio_external_self"));echo "</pre>";exit;
+    /*DEBUG*/ //echo "<pre>";print_r($config->get("radio_external_self"));echo "</pre>";//exit;
 
     switch ($config->get("radio_external_self")) {
       case "self":
@@ -21,14 +39,15 @@ class AuthorizedDigitalSellersController extends ControllerBase {
         /*DEBUG*/ //\Drupal::cache()->invalidate("AuthorizedDigitalSellers.text");
         //Get from cache the ADS text
         $adstxtCache = \Drupal::cache()->get("AuthorizedDigitalSellers.text");
-        /*DEBUG*/ //echo "<pre>";print_r($adstxtCache);echo "</pre>";exit;
+        /*DEBUG*/ //echo "<pre>";print_r($adstxtCache);echo "</pre>";//exit;
 
         if ($adstxtCache == false) {
           //No cache hit. Get the ADS text
           try {
             $adstxt = $this->getExternalADSFile($config->get("external_ads_file"));
-            /*DEBUG*/ //echo "<pre>";print_r($adstxt);echo "</pre>";exit;
+            /*DEBUG*/ //echo "<pre>";print_r($adstxt);echo "</pre>";//exit;
           } catch (\Exception $e) {
+            /*DEBUG*/ //echo "<pre>";print_r($e->getMessage());echo "</pre>";//exit;
             if ($config->get("external_ads_file_fallback_to_self")) {
               $adstxt = $config->get("self_managed_text");
             } else {
@@ -95,17 +114,34 @@ class AuthorizedDigitalSellersController extends ControllerBase {
   /**
    * Get the external ads.txt text
    */
-  private function getExternalADSFile($sourceUrl = null) {
+  public function getExternalADSFile($sourceUrl = null) {
     if ($sourceUrl == null) {
       throw new \Exception("External ads.txt url not provided");
     }
 
-    //Get the ADS text from external source
-    $client = new Client();
     //Async Init: external.ads
-    $externaladsPromise = $client->getAsync($sourceUrl);
+    $externaladsPromise = $this->client->requestAsync("GET", $sourceUrl);
+    /*DEBUG*/ //echo "<pre>";print_r($externaladsPromise->wait()->getBody()->getContents());echo "</pre>";//exit;
 
     //Async Fulfiled: external.ads
     return $externaladsPromise->wait()->getBody()->getContents();
+  }
+
+  /**
+   * Get the HTTP Client
+   */
+  public function getHttpClient() {
+    return $this->client;
+  }
+
+  /**
+   * Set the HTTP Client
+   */
+  public function setHttpClient(ClientInterface $client = null) {
+    if (empty($client)) {
+      throw new \Exception("HTTP Client must be provided");
+    }
+
+    $this->client = $client;
   }
 }

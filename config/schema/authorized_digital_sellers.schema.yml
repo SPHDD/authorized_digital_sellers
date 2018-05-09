@@ -8,6 +8,15 @@ authorized_digital_sellers.settings:
     external_ads_file:
       type: string
       label: 'The http/https location of the ads.txt file'
+    external_ads_file_refresh_rate:
+      type: string
+      label: 'The refresh rate of external_ads_file cache'
+    external_ads_file_fallback_to_self:
+      type: boolean
+      label: 'A flag to decide whether to for external ads file to fallback to self-managed if external ads file does not respond'
     self_managed_text:
       type: string
       label: 'The ads.txt information'
+    http_cache_control:
+      type: string
+      label: 'The duration of cache-control for http header'

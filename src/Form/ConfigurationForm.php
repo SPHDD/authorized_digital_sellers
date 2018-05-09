@@ -51,7 +51,6 @@ class ConfigurationForm extends ConfigFormBase {
       "#title" => $this->t("Fallback to Self-Managed"),
       "#description" => $this->t("If the external ads.txt file cannot be retrieved and there is no cached version, should the module fallback to Self-Managed text version?"),
       "#required" => false,
-      "#placeholder" => "eg. +5 minutes or +1 day",
       "#default_value" => $config->get("external_ads_file_fallback_to_self"),
     ];
 
